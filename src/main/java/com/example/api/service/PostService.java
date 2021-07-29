@@ -47,6 +47,7 @@ public class PostService {
         return mapper.fromEntity(postRepository.save(postEntity));
     }
 
+    @Transactional
     public PostResponseDto update(PostRequestDto postRequestDto) {
         if (postRequestDto.getId() == null) {
             throw new AttributeIsNotPresentedException("id");
@@ -54,9 +55,10 @@ public class PostService {
 
         PostEntity post = mapper.fromDto(postRequestDto);
         post.setUpdated(Instant.now());
-        return mapper.fromEntity(postRepository.save(post));
+        return mapper.fromEntity(post);
     }
 
+    @Transactional
     public PostResponseDto delete(PostRequestDto postRequestDto) {
         if (postRequestDto.getId() == null) {
             throw new AttributeIsNotPresentedException("id");
@@ -66,16 +68,18 @@ public class PostService {
                 .orElseThrow(ItemNotFoundException::new);
         post.setDeleted(Instant.now());
         post.setDeletedBy(userService.getCurrentUserEntity());
-        return mapper.fromEntity(postRepository.save(post));
+        return mapper.fromEntity(post);
     }
 
+    @Transactional
     public PostResponseDto restore(Long id) {
         if (id == null) {
             throw new AttributeIsNotPresentedException("id");
         }
         PostEntity post = postRepository.findById(id).orElseThrow(ItemNotFoundException::new);
         post.setDeleted(null);
-        return mapper.fromEntity(postRepository.save(post));
+        post.setDeletedBy(null);
+        return mapper.fromEntity(post);
     }
 
     public boolean existByAuthorUsernameAndId(String authorUsername, Long id) {
