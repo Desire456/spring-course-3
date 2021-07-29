@@ -25,12 +25,10 @@ public class LikeService {
         PostEntity post = postRepository.findById(postId).orElseThrow(ItemNotFoundException::new);
 
         LikeEntity likeEntity = likeRepository.findByAuthorAndPost(author, post).orElse(null);
-        if (likeEntity != null) {
-            if (!likeEntity.getLike().equals(like)) {
-                likeEntity.setLike(like);
-            } else {
-                return likeMapper.fromEntity(likeEntity);
-            }
+        if (likeEntity != null && likeEntity.getLike().equals(like)) {
+            likeEntity.setLike(like);
+        } else if (likeEntity != null) {
+            return likeMapper.fromEntity(likeEntity);
         } else {
             likeEntity = new LikeEntity();
             likeEntity.setLike(like);
