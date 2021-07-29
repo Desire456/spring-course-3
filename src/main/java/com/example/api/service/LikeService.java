@@ -11,6 +11,7 @@ import com.example.api.repository.PostRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @AllArgsConstructor
@@ -20,6 +21,7 @@ public class LikeService {
     private UserService userService;
     private LikeMapper likeMapper;
 
+    @Transactional
     public LikeResponseDto save(UserDetails principal, Long postId, Integer like) {
         UserEntity author = userService.findByUsername(principal.getUsername());
         PostEntity post = postRepository.findById(postId).orElseThrow(ItemNotFoundException::new);
