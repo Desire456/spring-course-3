@@ -16,13 +16,11 @@ import java.util.Collection;
 @Service
 @AllArgsConstructor
 public class AuthorizationService {
-    private UserService userService;
     private PostService postService;
     private PostRepository postRepository;
 
     public boolean isPostOwner(UserDetails principal, PostRequestDto postRequestDto) {
-        UserEntity author = userService.findByUsername(principal.getUsername());
-        return postService.existByAuthorAndId(author, postRequestDto.getId());
+        return postService.existByAuthorUsernameAndId(principal.getUsername(), postRequestDto.getId());
     }
 
     public boolean canRestorePost(UserDetails principal, Long postId) {
@@ -33,8 +31,7 @@ public class AuthorizationService {
         } else {
             boolean deletedByAdmin = hasAdminRole(deletedBy.getAuthorities());
             boolean isActorAdmin = hasAdminRole(principal.getAuthorities());
-            boolean isPostOwner = postService.existByAuthorAndId(userService.findByUsername(principal.getUsername()),
-                    postId);
+            boolean isPostOwner = postService.existByAuthorUsernameAndId(principal.getUsername(), postId);
             if (isActorAdmin) {
                 return true;
             }

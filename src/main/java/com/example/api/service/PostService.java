@@ -11,7 +11,6 @@ import com.example.api.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -77,8 +76,8 @@ public class PostService {
         return mapper.fromEntity(postRepository.save(post));
     }
 
-    public boolean existByAuthorAndId(UserEntity author, Long id) {
-        return postRepository.existsByAuthorAndId(author, id);
+    public boolean existByAuthorUsernameAndId(String authorUsername, Long id) {
+        return postRepository.existsByAuthor_UsernameAndId(authorUsername, id);
     }
 
 }
