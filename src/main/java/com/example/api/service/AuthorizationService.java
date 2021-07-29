@@ -17,8 +17,8 @@ import java.util.Collection;
 @Service
 @AllArgsConstructor
 public class AuthorizationService {
-    private PostService postService;
-    private PostRepository postRepository;
+    private final PostService postService;
+    private final PostRepository postRepository;
 
     public boolean isPostOwner(UserDetails principal, PostRequestDto postRequestDto) {
         return postService.existByAuthorUsernameAndId(principal.getUsername(), postRequestDto.getId());

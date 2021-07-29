@@ -16,10 +16,10 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @AllArgsConstructor
 public class LikeService {
-    private LikeRepository likeRepository;
-    private PostRepository postRepository;
-    private UserService userService;
-    private LikeMapper likeMapper;
+    private final LikeRepository likeRepository;
+    private final PostRepository postRepository;
+    private final UserService userService;
+    private final LikeMapper likeMapper;
 
     @Transactional
     public LikeResponseDto save(UserDetails principal, Long postId, Integer like) {
