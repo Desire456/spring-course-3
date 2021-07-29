@@ -66,9 +66,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 )))
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/api/media").permitAll()
-                .antMatchers(HttpMethod.POST, "/api/users/registrations").hasRole("ANONYMOUS")
-                .antMatchers(HttpMethod.GET, "/api/posts", "/api/posts/{\\d+}").hasRole("ANONYMOUS")
-                .antMatchers("/api/**").hasAnyRole("USER", "ADMIN")
+                .antMatchers(HttpMethod.POST, "/api/users/registrations").hasAuthority(Roles.ANONYMOUS)
+                .antMatchers(HttpMethod.GET, "/api/posts", "/api/posts/{\\d+}").hasAnyAuthority(Roles.ANONYMOUS, Roles.USER, Roles.ADMIN )
+                .antMatchers("/api/**").hasAnyAuthority(Roles.USER, Roles.ADMIN)
                 .and();
     }
 }
