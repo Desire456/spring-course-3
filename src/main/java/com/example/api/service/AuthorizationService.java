@@ -5,6 +5,7 @@ import com.example.api.entity.PostEntity;
 import com.example.api.entity.UserEntity;
 import com.example.api.exception.ItemNotFoundException;
 import com.example.api.repository.PostRepository;
+import com.example.api.role.RoleNames;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -43,6 +44,6 @@ public class AuthorizationService {
     }
 
     private boolean hasAdminRole(Collection<? extends GrantedAuthority> authorities) {
-        return authorities.contains(new SimpleGrantedAuthority("ADMIN"));
+        return authorities.contains(new SimpleGrantedAuthority(RoleNames.ADMIN));
     }
 }
